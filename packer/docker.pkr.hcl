@@ -28,7 +28,7 @@ variable "skip_create_ami" {
 
 source "amazon-ebs" "ubuntu" {
   skip_create_ami = var.skip_create_ami
-  ami_name        = "ebpf-xdp-devspace-{{isotime `2006-01-02-15-04-05`}}"
+  ami_name        = "docker-{{isotime `2006-01-02-15-04-05`}}"
   instance_type   = "t3a.medium"
   source_ami_filter {
     filters = {

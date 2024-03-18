@@ -29,8 +29,14 @@ jobs:
 
       - name: Packer init
         id: init
-        run: packer init packer/docker.pkr.hcl
+        run:  |
+          for i in $(cat buildlist); do
+            packer init packer/$i.pkr.hcl
+          done
 
       - name: Packer build AMI
         id: build
-        run: packer build -var 'skip_create_ami=false' packer/docker.pkr.hcl
+        run: |
+          for i in $(cat buildlist); do
+            packer build -var 'skip_create_ami=false' packer/$i.pkr.hcl
+          done
