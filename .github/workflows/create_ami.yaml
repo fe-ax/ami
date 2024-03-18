@@ -13,9 +13,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: plan
-    outputs:
-      returncode: ${{ steps.plan-step.outputs.exitcode }}
+    environment: build
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v4
@@ -24,7 +22,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/packer_role
-          role-session-name: github-session-role
+          role-session-name: github-packer-session-role
           aws-region: ${{ env.AWS_REGION }}
 
       - uses: hashicorp/setup-packer@v3
