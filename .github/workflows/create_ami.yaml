@@ -27,6 +27,10 @@ jobs:
 
       - uses: hashicorp/setup-packer@v3.0.0
 
-      - name: Build AMI
+      - name: Packer init
+        id: init
+        run: packer init packer/docker.pkr.hcl
+
+      - name: Packer build AMI
         id: build
         run: packer build -var 'skip_create_ami=false' packer/docker.pkr.hcl
