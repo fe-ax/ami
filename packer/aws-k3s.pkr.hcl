@@ -11,25 +11,25 @@ packer {
 # All variables
 ####################
 
-variable "packer_access_key" {
-  type      = string
-  sensitive = false
-}
+# variable "packer_access_key" {
+#   type      = string
+#   sensitive = false
+# }
 
-variable "packer_secret_key" {
-  type      = string
-  sensitive = true
-}
+# variable "packer_secret_key" {
+#   type      = string
+#   sensitive = true
+# }
 
-variable "packer_region" {
-  type      = string
-  sensitive = false
-}
+# variable "packer_region" {
+#   type      = string
+#   sensitive = false
+# }
 
-variable "packer_role_arn" {
-  type      = string
-  sensitive = false
-}
+# variable "packer_role_arn" {
+#   type      = string
+#   sensitive = false
+# }
 
 variable "skip_create_ami" {
   type      = bool
@@ -48,14 +48,15 @@ variable "skip_create_ami" {
 
 source "amazon-ebs" "ubuntu" {
   skip_create_ami = var.skip_create_ami
-  region          = var.packer_region
-  access_key      = var.packer_access_key
-  secret_key      = var.packer_secret_key
+  # region          = var.packer_region
+  # access_key      = var.packer_access_key
+  # secret_key      = var.packer_secret_key
   ami_name        = "ebpf-xdp-devspace-{{isotime `2006-01-02-15-04-05`}}"
   instance_type   = "t4g.medium"
   source_ami_filter {
     filters = {
-      name                = "ubuntu/images/*ubuntu-jammy-24.04-amd64-server-*"
+      architecture        = "arm64"
+      name                = "ubuntu/images/*ubuntu-noble-24.04-arm64-server-*"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
@@ -63,10 +64,10 @@ source "amazon-ebs" "ubuntu" {
     owners      = ["099720109477"] # Canonical
   }
   ssh_username = "ubuntu"
-  assume_role {
-    role_arn     = var.packer_role_arn
-    session_name = "packer"
-  }
+  # assume_role {
+  #   role_arn     = var.packer_role_arn
+  #   session_name = "packer"
+  # }
   run_tags = {
     Creator = "Packer"
   }
